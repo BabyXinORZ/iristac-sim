@@ -1,0 +1,8 @@
+<scene version="3.0.0">
+    
+    <shape type="ply">
+        <string name="filename" value="meshes/face.ply"/>
+        <!-- <boolean name="flip_normals" value="true"/> -->
+    </shape>
+
+</scene>

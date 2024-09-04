@@ -1,0 +1,10 @@
+<scene version="3.0.0">
+    
+    <shape type="disk">
+        <transform name="to_world">
+            <scale x="35" y="35"/>
+            <translate x="0" y="0" z="0"/>
+        </transform>
+    </shape>
+
+</scene>
