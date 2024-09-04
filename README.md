@@ -3,7 +3,7 @@
 ## Requirement
 - Python >= 3.8
 - [Mitsuba Render 3](https://github.com/mitsuba-renderer/mitsuba3)
-- (Optional) 见 [Mitsuba 3 Requirement](https://github.com/mitsuba-renderer/mitsuba3?tab=readme-ov-file#requirements)
+- (Optional) Refer to [Mitsuba 3 Requirement](https://github.com/mitsuba-renderer/mitsuba3?tab=readme-ov-file#requirements)
 
 ## Usage
 
