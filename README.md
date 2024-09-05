@@ -7,5 +7,5 @@
 
 ## Usage
 
-1. [Generate mesh file](./meshGenerator.ipynb)
-2. [Image simulation based on ray casting](./rayCastingSimulation.ipynb)
+1. [Generate mesh file](./scripts/meshGenerator.ipynb)
+2. [Image simulation based on ray casting](./scripts/rayCastingSimulationInMatrix.ipynb)
