@@ -41,7 +41,7 @@ class sensor():
         R_float = dr.zeros(mi.Float,N_Pixel*3*3)
         R_index1 = dr.arange(mi.UInt,N_Pixel*3)
         R_index2 = dr.arange(mi.UInt,N_Pixel)
-        a,b,c,d = dr.meshgrid(
+        a,_,c,d = dr.meshgrid(
             dr.arange(mi.UInt,N_Pixel),
             dr.zeros(mi.UInt,self.LED.N),
             dr.arange(mi.UInt,3),
@@ -74,17 +74,15 @@ class sensor():
         cosine2 = mi.TensorXf(dr.block_sum(cosine2.array,3),shape=[N_Pixel,N_LED,1,1])
         # compute light max intensity  at the angle of the LED
         I_LED = dr.select(cosine2>0,cosine2,0)
-
         ### Exclude rays that are blocked by surface ###
         ray_test_o = P_Pixel_t - mi.TensorXf(0,shape=[1,N_LED,3])
-        ray_test_o[:,:,2] = ray_test_o[:,:,2].array-10*dr.epsilon(mi.Float)
+        ray_test_o[:,:,2] = ray_test_o[:,:,2].array-1e-5
         id_test = dr.arange(mi.UInt,N_Pixel*N_LED)
         ray_test_o = dr.gather(mi.Point3f, ray_test_o.array, id_test)
         ray_test_d = dr.gather(mi.Vector3f, -D_incident.array, id_test)
         ray_test =  mi.Ray3f(o=ray_test_o,d=ray_test_d)
         ray_test_result = self.Z0_scene.ray_test(ray_test)
         I_LED = dr.select(mi.TensorXb(~ray_test_result,[N_Pixel,N_LED,1,1]),I_LED,0)
-
         return I_LED*self.LED.E, D_incident
 
     def buildEstimationScene(self, Z:mi.TensorXf=None) -> mi.Scene:
@@ -92,9 +90,9 @@ class sensor():
         range_end = (self.cam.fov[0]/2,self.cam.fov[1]/2)
         if Z is None:
             Z = mi.TensorXf(0,self.cam.image_res)
-            mesh = grid_mesh_build(range_start,range_end,self.cam.image_res,Z.array)
+            mesh = grid_mesh_build(range_start,range_end,Z)
         else:
-            mesh = grid_mesh_build(range_start,range_end,self.cam.image_res,Z.array)
+            mesh = grid_mesh_build(range_start,range_end,Z)
         return mi.load_dict({
             "type": "scene",
             "facedisk": mesh,
