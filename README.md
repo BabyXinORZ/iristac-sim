@@ -7,6 +7,8 @@
 
 ## Usage
 
+### Surface Reconstruction in Simulation
 1. [Generate mesh file](./scripts/meshGenerator.ipynb)
 2. [Image simulation based on ray casting](./scripts/rayCastingSimulationInMatrix.ipynb)
 3. [Surface Reconstruction](./scripts/surfaceReconstruction.ipynb)
+4. [Surface Reconstruction Iteration](./scripts/surfaceReconstructionIteration.ipynb)
