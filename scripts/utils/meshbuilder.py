@@ -5,7 +5,7 @@ mi.set_variant("cuda_ad_rgb")
 def grid_mesh_build(start,stop,Z:mi.TensorXf):
     x1 = start[0];x2 = stop[0]
     y1 = start[1];y2 = stop[1]    
-    n1 = Z.shape[0];n2 = Z.shape[1]
+    n1 = Z.shape[1];n2 = Z.shape[0]
     d1 = (x2-x1)/n1
     d2 = (y2-y1)/n2
 
@@ -14,10 +14,10 @@ def grid_mesh_build(start,stop,Z:mi.TensorXf):
 
     x, y = dr.meshgrid(
         dr.linspace(mi.Float, x1-d1,  x2+d1, n1),
-        dr.linspace(mi.Float, y1-d2,  y2+d2, n2)
+        dr.linspace(mi.Float, y1-d2,  y2+d2, n2),
     )
 
-    Z_padding = mi.TensorXf(0,(n1,n2))
+    Z_padding = mi.TensorXf(0,(n2,n1))
     Z_padding[1:-1,1:-1] = Z.array
 
 
