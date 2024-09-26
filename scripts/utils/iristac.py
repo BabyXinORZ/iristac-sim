@@ -74,9 +74,9 @@ class sensor():
         D_LED_t = mi.TensorXf(dr.ravel(D_LED),shape=[1,N_LED,3])
         cosine2 = D_incident*D_LED_t
         cosine2 = mi.TensorXf(dr.block_sum(cosine2.array,3),shape=[N_Pixel,N_LED,1,1])
+        cosine2 = dr.select(cosine2>0,cosine2,0)
         # compute light max intensity  at the angle of the LED
-        I_LED = dr.select(cosine2>0,cosine2,0)
-        # I_LED = cosine2
+        I_LED = dr.exp(-1/(cosine2+0.05)/2)*dr.exp(0.5)
         ### Exclude rays that are blocked by surface ###
         ray_test_o = P_Pixel_t - mi.TensorXf(0,shape=[1,N_LED,3])
         ray_test_o[:,:,2] = ray_test_o[:,:,2].array-1e-3
@@ -85,8 +85,8 @@ class sensor():
         ray_test_d = dr.gather(mi.Vector3f, -D_incident.array, id_test)
         ray_test =  mi.Ray3f(o=ray_test_o,d=ray_test_d)
         ray_test_result = self.Z0_scene.ray_test(ray_test)
-        self.I_LED = dr.select(mi.TensorXb(ray_test_result,[N_Pixel,N_LED,1,1]),0,I_LED)
-        return self.I_LED*self.LED.E, D_incident
+        I_LED = dr.select(mi.TensorXb(ray_test_result,[N_Pixel,N_LED,1,1]),0,I_LED)
+        return I_LED*self.LED.E, D_incident
 
     def buildEstimationScene(self, Z:mi.TensorXf=None) -> mi.Scene:
         range_start = (self.cam.range[0][0],self.cam.range[0][1])
